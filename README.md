@@ -78,13 +78,23 @@ src/
 
 ├── auth/ # JWT strategy, login, token generation 
 
+│ └── dto/ logindto
+
 ├── users/ # User CRUD, role and status management 
+
+│ └── dto/ userdto
 
 ├── records/ # Financial record CRUD and filtering 
 
+│ └── dto/ recordsdto 
+
 ├── dashboard/ # Summary, category stats, monthly and weekly trends 
 
+│ └── dto/ trendsdto
+
 ├── categories/ # Category management 
+
+│ └── dto/ categorydto
 
 ├── common/ 
 
@@ -93,8 +103,6 @@ src/
 │ ├── decorators/ # @Roles() decorator 
 
 │ ├── services/ # Shared FilterService 
-
-│ └── dto/ # Shared DTOs like PaginationDto 
 
 
 ---
