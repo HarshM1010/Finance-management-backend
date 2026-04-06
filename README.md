@@ -69,18 +69,29 @@ a clean and structured REST API.
 
 src/
 
-├── auth/              # JWT strategy, login, token generation
-├── users/             # User CRUD, role and status management
-├── records/           # Financial record CRUD and filtering
-├── dashboard/         # Summary, category stats, monthly and weekly trends
-├── categories/        # Category management
-├── common/
-│   ├── guards/        # JwtAuthGuard, RolesGuard
-│   ├── decorators/    # @Roles() decorator
-│   ├── services/      # Shared FilterService
-│   └── dto/           # Shared DTOs like PaginationDto
-├── prisma/            # PrismaService
-└── generated/         # Prisma generated client (auto generated, not committed)
+├── auth/ # JWT strategy, login, token generation 
+
+├── users/ # User CRUD, role and status management 
+
+├── records/ # Financial record CRUD and filtering 
+
+├── dashboard/ # Summary, category stats, monthly and weekly trends 
+
+├── categories/ # Category management 
+
+├── common/ 
+
+│ ├── guards/ # JwtAuthGuard, RolesGuard 
+
+│ ├── decorators/ # @Roles() decorator 
+
+│ ├── services/ # Shared FilterService 
+
+│ └── dto/ # Shared DTOs like PaginationDto 
+
+├── prisma/ # PrismaService 
+
+└── generated/ # Prisma generated client (auto generated, not committed)
 
 ---
 
