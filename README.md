@@ -160,9 +160,9 @@ After running `prisma db seed` the following users are available:
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | admin1@example.com | admin123 |
-| Analyst | analyst1@example.com | analyst123 |
-| Viewer | viewer1@example.com | viewer123 |
+| Admin | admin1@example.com | admin1123 |
+| Analyst | analyst1@example.com | analyst1123 |
+| Viewer | viewer1@example.com | viewer1123 |
 
 ---
 
