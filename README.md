@@ -199,10 +199,11 @@ DELETE /categories/delete-category/:id             # Soft delete (deactivate) a 
 ### Dashboard (All roles)
 GET    /dashboard/summary-and-category-stats   # Summary + category breakdown
 
-GET    /dashboard/monthly-trends               # Monthly income and expense trends
+GET    /dashboard/trends-monthly               # Monthly income and expense trends
 
-GET    /dashboard/weekly-trends                # Weekly income and expense trends
+GET    /dashboard/trends-weekly                # Weekly income and expense trends
 
+GET    /dashboard/recent-activity              # last n records created based on category filter
 
 ---
 
