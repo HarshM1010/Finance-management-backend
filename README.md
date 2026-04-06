@@ -68,6 +68,7 @@ a clean and structured REST API.
 ## Project Structure
 
 src/
+
 ├── auth/              # JWT strategy, login, token generation
 ├── users/             # User CRUD, role and status management
 ├── records/           # Financial record CRUD and filtering
