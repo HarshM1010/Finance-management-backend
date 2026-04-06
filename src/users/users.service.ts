@@ -3,7 +3,7 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../../src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/user.dto';
 import { UpdateUserStatusDto } from './dto/user.dto';
 import { UpdateUserRoleDto } from './dto/user.dto';

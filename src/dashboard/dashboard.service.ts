@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { RecordType } from '../../prisma/generated/prisma/enums';
 import { FilterRecordDto } from 'src/records/dto/records.dto';
 import { FilterService } from 'src/common/services/filter.service';
