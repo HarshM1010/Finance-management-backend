@@ -8,7 +8,13 @@ import { CategoryModule } from './category/category.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, RecordsModule, CategoryModule, DashboardModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    RecordsModule,
+    CategoryModule,
+    DashboardModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,6 +1,6 @@
 //commmon service to build where clause for record filtering, used by both RecordsService and DashboardServiceimport { Injectable } from '@nestjs/common';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../../src/prisma/prisma.service';
 import { FilterRecordDto } from '../../records/dto/records.dto';
 
 @Injectable()
