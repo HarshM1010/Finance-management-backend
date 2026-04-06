@@ -138,7 +138,6 @@ docker compose exec app npx prisma db seed
 | Service | URL |
 |---|---|
 | API | http://localhost:3000 |
-| pgAdmin | http://localhost:5050 |
 | Prisma Studio | Run `docker compose exec app npx prisma studio` |
 
 ---
