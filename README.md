@@ -148,7 +148,6 @@ Create a `.env` file based on `.env.example`:
 ```env
 DATABASE_URL=postgresql://postgres:postgres@db:5432/finance_db
 JWT_SECRET=your_secret_key_here
-JWT_EXPIRES_IN=7d
 ```
 
 ---
