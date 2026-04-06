@@ -24,6 +24,7 @@ a clean and structured REST API.
 - Three roles supported — `ADMIN`, `ANALYST`, `VIEWER`
 - Role-based access control enforced via NestJS Guards
 - User status management — `ACTIVE` / `INACTIVE`
+- User permanantly soft deleted - `isDeleted`
 
 ### Financial Records
 - Full CRUD operations on financial records
