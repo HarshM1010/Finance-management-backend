@@ -33,9 +33,16 @@ a clean and structured REST API.
 - Pagination support on record listing
 
 ### Category Management
-- Admin controlled categories — no free text input
-- Soft delete via `isActive` flag — existing records preserve their category reference
-- Categories hidden from new record creation when deactivated
+- Admin controlled categories — no free text input from users
+- Two stage lifecycle managed via separate flags:
+  - `isActive` — controls availability for new records. Deactivating hides the 
+    category from new record creation but preserves all existing records that 
+    reference it. Admin can reactivate at any time.
+  - `isDeleted` — permanent soft delete. Marks the category as fully removed 
+    from the system without physically deleting the database row, preserving 
+    referential integrity with existing financial records.
+- Dashboard analytics include historical data from deactivated categories 
+  for complete and accurate reporting
 
 ### Dashboard & Analytics
 - Summary stats — total income, total expenses, net balance
