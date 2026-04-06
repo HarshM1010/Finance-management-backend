@@ -67,6 +67,13 @@ a clean and structured REST API.
 
 ## Project Structure
 
+prisma/
+
+├── generated/ # Prisma generated client (auto generated, not committed)
+
+├── # prisma.service.ts
+
+
 src/
 
 ├── auth/ # JWT strategy, login, token generation 
@@ -89,9 +96,6 @@ src/
 
 │ └── dto/ # Shared DTOs like PaginationDto 
 
-├── prisma/ # PrismaService 
-
-└── generated/ # Prisma generated client (auto generated, not committed)
 
 ---
 
