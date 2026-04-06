@@ -67,42 +67,68 @@ a clean and structured REST API.
 
 ## Project Structure
 
-prisma/
-
-├── generated/ # Prisma generated client (auto generated, not committed)
-
-├── prisma.service.ts
-
-
-src/
-
-├── auth/ # JWT strategy, login, token generation 
-
-│ └── dto/ logindto
-
-├── users/ # User CRUD, role and status management 
-
-│ └── dto/ userdto
-
-├── records/ # Financial record CRUD and filtering 
-
-│ └── dto/ recordsdto 
-
-├── dashboard/ # Summary, category stats, monthly and weekly trends 
-
-│ └── dto/ trendsdto
-
-├── categories/ # Category management 
-
-│ └── dto/ categorydto
-
-├── common/ 
-
-│ ├── guards/ # JwtAuthGuard, RolesGuard 
-
-│ ├── decorators/ # @Roles() decorator 
-
-│ ├── services/ # Shared FilterService 
+## Project Structure
+```
+finance-backend/
+├── prisma/
+│   ├── generated/          # Prisma generated client (auto generated, not committed)
+│   ├── migrations/         # Database migration history
+│   ├── prisma.service.ts   # PrismaService — database connection
+│   ├── schema.prisma       # Database schema and models
+│   └── seed.ts             # Database seeder — default admin, categories, users
+│
+├── src/
+│   ├── auth/
+│   │   ├── dto/
+│   │   │   └── login.dto.ts
+│   │   ├── auth.controller.ts
+│   │   ├── auth.module.ts
+│   │   ├── auth.service.ts
+│   │   └── jwt.strategy.ts
+│   │
+│   ├── category/
+│   │   ├── dto/
+│   │   │   └── category.dto.ts
+│   │   ├── category.controller.ts
+│   │   ├── category.module.ts
+│   │   └── category.service.ts
+│   │
+│   ├── users/
+│   │   ├── dto/
+│   │   │   └── user.dto.ts
+│   │   ├── users.controller.ts
+│   │   ├── users.module.ts
+│   │   └── users.service.ts
+│   │
+│   ├── records/
+│   │   ├── dto/
+│   │   ├── records.controller.ts
+│   │   ├── records.module.ts
+│   │   └── records.service.ts
+│   │
+│   ├── dashboard/
+│   │   ├── dto/
+│   │   │   └── records.dto.ts
+│   │   ├── dashboard.controller.ts
+│   │   ├── dashboard.module.ts
+│   │   └── dashboard.service.ts
+│   │
+│   ├── common/
+│   │   ├── guards/
+│   │   │   ├── jwt-auth.guard.ts
+│   │   │   └── roles.guard.ts
+│   │   ├── decorators/
+│   │   │   └── roles.decorator.ts
+│   │   ├── services/
+│   │   │   └── filter.service.ts
+│   ├── app.module.ts
+│   └── main.ts
+│
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
 
 
 ---
