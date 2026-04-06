@@ -71,7 +71,7 @@ prisma/
 
 ├── generated/ # Prisma generated client (auto generated, not committed)
 
-├── # prisma.service.ts
+├── prisma.service.ts
 
 
 src/
