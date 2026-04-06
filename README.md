@@ -1,98 +1,247 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Finance Dashboard Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A role-based finance dashboard backend built with NestJS, PostgreSQL, and Prisma ORM.
+Designed to manage financial records, users, and provide analytical insights through
+a clean and structured REST API.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Framework** — NestJS (Node.js)
+- **Database** — PostgreSQL (via Docker)
+- **ORM** — Prisma v7
+- **Auth** — JWT (JSON Web Tokens) via Passport
+- **Validation** — class-validator + class-transformer
+- **Containerisation** — Docker + Docker Compose
 
-## Project setup
+---
 
+## Features
+
+### User & Role Management
+- Admin can create, update, and soft delete users
+- Three roles supported — `ADMIN`, `ANALYST`, `VIEWER`
+- Role-based access control enforced via NestJS Guards
+- User status management — `ACTIVE` / `INACTIVE`
+- User permanantly soft deleted - `isDeleted`
+
+### Financial Records
+- Full CRUD operations on financial records
+- Record types — `INCOME` and `EXPENSE`
+- Soft delete support — records are never permanently lost
+- Filter records by type, category, amount range, and date range
+- Pagination support on record listing
+
+### Category Management
+- Admin controlled categories — no free text input from users
+- Two stage lifecycle managed via separate flags:
+  - `isActive` — controls availability for new records. Deactivating hides the 
+    category from new record creation but preserves all existing records that 
+    reference it. Admin can reactivate at any time.
+  - `isDeleted` — permanent soft delete. Marks the category as fully removed 
+    from the system without physically deleting the database row, preserving 
+    referential integrity with existing financial records.
+- Dashboard analytics include historical data from deactivated categories 
+  for complete and accurate reporting
+
+### Dashboard & Analytics
+- Summary stats — total income, total expenses, net balance
+- Category wise breakdown with income, expense, and net per category
+- Monthly trends — aggregated income and expense per month (up to 12 months)
+- Weekly trends — aggregated income and expense per week (up to 12 weeks)
+- All dashboard endpoints support category filtering
+
+### Access Control
+
+| Endpoint | VIEWER | ANALYST | ADMIN |
+|---|---|---|---|
+| Dashboard summary | ✅ | ✅ | ✅ |
+| View records | ❌ | ✅ | ✅ |
+| Filter records | ❌ | ✅ | ✅ |
+| Create / Edit / Delete records | ❌ | ❌ | ✅ |
+| Manage categories | ❌ | ❌ | ✅ |
+| Manage users | ❌ | ❌ | ✅ |
+
+---
+
+## Project Structure
+
+prisma/
+
+├── generated/ # Prisma generated client (auto generated, not committed)
+
+├── prisma.service.ts
+
+
+src/
+
+├── auth/ # JWT strategy, login, token generation 
+
+│ └── dto/ logindto
+
+├── users/ # User CRUD, role and status management 
+
+│ └── dto/ userdto
+
+├── records/ # Financial record CRUD and filtering 
+
+│ └── dto/ recordsdto 
+
+├── dashboard/ # Summary, category stats, monthly and weekly trends 
+
+│ └── dto/ trendsdto
+
+├── categories/ # Category management 
+
+│ └── dto/ categorydto
+
+├── common/ 
+
+│ ├── guards/ # JwtAuthGuard, RolesGuard 
+
+│ ├── decorators/ # @Roles() decorator 
+
+│ ├── services/ # Shared FilterService 
+
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Docker and Docker Compose installed
+- Node.js 20+ (only needed if running outside Docker)
+
+### Run with Docker
 ```bash
-$ npm install
+# Clone the repository
+git clone https://github.com/your-username/finance-backend.git
+cd finance-backend
+
+# Copy environment file
+cp .env.example .env
+
+# Start all containers (NestJS app + PostgreSQL + pgAdmin)
+docker compose up --build
 ```
 
-## Compile and run the project
-
+### Run Migrations and Seed
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# In a separate terminal after containers are up
+docker compose exec app npx prisma migrate dev --name init
+docker compose exec app npx prisma db seed
 ```
 
-## Run tests
+### Access Points
 
-```bash
-# unit tests
-$ npm run test
+| Service | URL |
+|---|---|
+| API | http://localhost:3000 |
+| Prisma Studio | Run `docker compose exec app npx prisma studio` |
 
-# e2e tests
-$ npm run test:e2e
+---
 
-# test coverage
-$ npm run test:cov
+## Environment Variables
+
+Create a `.env` file based on `.env.example`:
+```env
+DATABASE_URL=postgresql://postgres:postgres@db:5432/finance_db
+JWT_SECRET=your_secret_key_here
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## API Overview
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Auth
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+POST   /auth/login              # Login and receive JWT token
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Users (Admin only)
+GET    /users/get-all-users     # List all users with pagination
 
-## Resources
+POST   /users/create-user            # Create a new user
 
-Check out a few resources that may come in handy when working with NestJS:
+PATCH  /users/update-user-role/:id   # Update user role
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+PATCH  /users/update-user-status/:id # Activate or deactivate user
 
-## Support
+DELETE /users/delete-user/:id        # Soft delete a user
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+GET    /users/get-viewers            # List all viewers with pagination
 
-## Stay in touch
+GET    /users/get-analysts           # List all analysts with pagination
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+GET    /users/get-admins             # List all admins with pagination
 
-## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Records (Admin full access, Analyst read only)
+POST   /records/create-record                 # Create a record
+
+GET    /records/filter-records                # Filter records by type, category, amount, date
+
+PATCH  /records/update-record/:id             # Update a record
+
+DELETE /records/delete-record/:id             # Soft delete a record
+
+
+### Categories (Admin only)
+GET    /categories/get-all-categories              # List all active categories
+
+POST   /categories/create-category                 # Create a category
+
+PATCH  /categories/update-category/:id             # Update a category
+
+DELETE /categories/delete-category/:id             # Soft delete (deactivate) a category
+
+
+### Dashboard (All roles)
+GET    /dashboard/summary-and-category-stats   # Summary + category breakdown
+
+GET    /dashboard/trends-monthly               # Monthly income and expense trends
+
+GET    /dashboard/trends-weekly                # Weekly income and expense trends
+
+GET    /dashboard/recent-activity              # last n records created based on category filter
+
+---
+
+## Seeded Credentials
+
+After running `npm run seed` the following users are available:
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin1@example.com | admin1123 |
+| Analyst | analyst1@example.com | analyst1123 |
+| Viewer | viewer1@example.com | viewer1123 |
+
+---
+
+## Design Decisions
+
+**PostgreSQL over MongoDB** — Financial data is relational and requires ACID transactions. Aggregations like monthly totals and category breakdowns are natural SQL operations. PostgreSQL handles millions of rows comfortably before scaling becomes a concern.
+
+**Soft deletes everywhere** — Financial records and users are never permanently deleted. This preserves audit history and prevents data loss from accidental deletions.
+
+**Category controlled by Admin** — Free text category input leads to inconsistent data and unreliable aggregations. Admin managed categories ensure dashboard analytics are always accurate.
+
+**Aggregation in PostgreSQL not JavaScript** — Monthly and weekly trends use raw SQL with `DATE_TRUNC` and `GROUP BY`. This keeps data transfer minimal — only aggregated rows travel over the network instead of thousands of raw records.
+
+**Single groupBy for summary** — Category stats and overall summary are derived from a single `groupBy` query rather than separate aggregate queries. This guarantees consistency — all numbers come from the same database snapshot.
+
+---
+
+## Assumptions
+
+- All users are created by an Admin — no self registration
+- Financial records are company wide data, not user owned — `createdById` is an audit field only
+- A deactivated category still appears on existing records for historical accuracy but is hidden from new record creation
+- JWT tokens expire in 7 days by default
+
+---
+
+## Author
+
+Built as part of a backend engineering assessment.
