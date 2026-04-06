@@ -1,0 +1,90 @@
+ generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+
+  role      Role     @default(VIEWER)
+  status    Status   @default(ACTIVE)
+  isDeleted Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById  String?
+  createdBy User?    @relation("UserCreator", fields: [createdById], references: [id])
+
+  createdUsers User[] @relation("UserCreator")
+
+  records   FinancialRecord[] @relation("UserToRecords")
+
+  categoriesCreated Category[] @relation("CategoryCreator")
+}
+
+model FinancialRecord {
+  id        String   @id @default(uuid())
+
+  amount    Float
+  type      RecordType
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  date      DateTime
+  notes     String?
+
+  createdById  String
+  createdBy User     @relation("UserToRecords", fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted Boolean  @default(false)
+
+  @@index([date])
+  @@index([categoryId])
+  @@index([type])
+  @@index([createdById])
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  isDeleted   Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+
+  createdById String
+  createdBy   User     @relation("CategoryCreator", fields: [createdById], references: [id])
+
+  records     FinancialRecord[]
+
+  @@index([name])
+}
+
+enum Role {
+  ADMIN
+  ANALYST
+  VIEWER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum RecordType {
+  INCOME
+  EXPENSE
+}
