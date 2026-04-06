@@ -160,33 +160,55 @@ POST   /auth/login              # Login and receive JWT token
 
 ### Users (Admin only)
 GET    /users/get-all-users     # List all users with pagination
-POST   /users/create            # Create a new user
-PATCH  /users/update-role/:id   # Update user role
-PATCH  /users/update-status/:id # Activate or deactivate user
-DELETE /users/:id               # Soft delete a user
+
+POST   /users/create-user            # Create a new user
+
+PATCH  /users/update-user-role/:id   # Update user role
+
+PATCH  /users/update-user-status/:id # Activate or deactivate user
+
+DELETE /users/delete-user/:id        # Soft delete a user
+
+GET    /users/get-viewers            # List all viewers with pagination
+
+GET    /users/get-analysts           # List all analysts with pagination
+
+GET    /users/get-admins             # List all admins with pagination
+
 
 ### Records (Admin full access, Analyst read only)
-POST   /records                 # Create a record
-GET    /records/filter          # Filter records by type, category, amount, date
-PATCH  /records/:id             # Update a record
-DELETE /records/:id             # Soft delete a record
+POST   /records/create-record                 # Create a record
+
+GET    /records/filter-records                # Filter records by type, category, amount, date
+
+PATCH  /records/update-record/:id             # Update a record
+
+DELETE /records/delete-record/:id             # Soft delete a record
+
 
 ### Categories (Admin only)
-GET    /categories              # List all active categories
-POST   /categories              # Create a category
-PATCH  /categories/:id          # Update a category
-DELETE /categories/:id          # Soft delete (deactivate) a category
+GET    /categories/get-all-categories              # List all active categories
+
+POST   /categories/create-category                 # Create a category
+
+PATCH  /categories/update-category/:id             # Update a category
+
+DELETE /categories/delete-category/:id             # Soft delete (deactivate) a category
+
 
 ### Dashboard (All roles)
 GET    /dashboard/summary-and-category-stats   # Summary + category breakdown
+
 GET    /dashboard/monthly-trends               # Monthly income and expense trends
+
 GET    /dashboard/weekly-trends                # Weekly income and expense trends
+
 
 ---
 
 ## Seeded Credentials
 
-After running `prisma db seed` the following users are available:
+After running `npm run seed` the following users are available:
 
 | Role | Email | Password |
 |---|---|---|
